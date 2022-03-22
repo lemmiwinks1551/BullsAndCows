@@ -1,14 +1,20 @@
 package bullscows;
-
-import java.util.Random;
 import java.util.Scanner;
 
-// 9305
 
 public class Main {
 
+    public static final String outputErrorLength = "Error: can't generate a secret number with a length of %d because there aren't enough unique digits.";
+    public static final String  outputRndNum = "The random secret number is %s.";
+
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
+        int length = scanner.nextInt();
+
+        StringBuilder sb = new StringBuilder(generatePseudoRandomNumber(length));
+
+        System.out.printf(outputRndNum, sb);
+        /*
         Random random = new Random();
         String[] randomNum = String.valueOf("9305").split(""); // random.nextInt(10_000)
         String[] guessNum = scanner.nextLine().split("");
@@ -43,7 +49,26 @@ public class Main {
             System.out.printf("Grade: %d bull(s). The secret code is %s.", bulls, randomNumOutput);
         } else if (bulls > 0 && cows > 0) {
             System.out.printf("Grade: %d bull(s) and %d cow(s). The secret code is %s.", bulls, cows, randomNumOutput);
+        }*/
+    }
+
+    private static StringBuilder generatePseudoRandomNumber (int length) {
+        StringBuilder sb = new StringBuilder();
+
+        if (length > 10) {
+            System.out.printf(outputErrorLength, length);
+            return sb;
         }
 
+        while (length > 0) {
+            long pseudoRandomNumber = System.nanoTime();
+            for (char ch : String.valueOf(pseudoRandomNumber).toCharArray()) {
+                if (!sb.toString().contains(String.valueOf(ch)) && length > 0) {
+                    sb.append(ch);
+                    length--;
+                }
+            }
+        }
+        return sb;
     }
 }
