@@ -1,4 +1,5 @@
 package bullscows;
+import java.util.Random;
 import java.util.Scanner;
 
 
@@ -77,6 +78,7 @@ public class Main {
     }
 
     private static StringBuilder generatePseudoRandomNumber (int length) {
+        Random random = new Random();
         StringBuilder sb = new StringBuilder();
 
         if (length > 10) {
@@ -85,7 +87,7 @@ public class Main {
         }
 
         while (length > 0) {
-            long pseudoRandomNumber = System.nanoTime();
+            long pseudoRandomNumber = Math.abs(random.nextLong());
             for (char ch : String.valueOf(pseudoRandomNumber).toCharArray()) {
                 if (!sb.toString().contains(String.valueOf(ch)) && length > 0) {
                     sb.append(ch);
